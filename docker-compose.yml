@@ -1,0 +1,307 @@
+version: '3.8'
+
+services:
+  # ============================================================================
+  # DATABASES
+  # ============================================================================
+  
+  postgres:
+    image: timescale/timescaledb:latest-pg14
+    container_name: fx-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: fxplatform
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres123}
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/migrations:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - fx-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: fx-redis
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    networks:
+      - fx-network
+
+  # ============================================================================
+  # MICROSERVICES
+  # ============================================================================
+
+  api-gateway:
+    build:
+      context: ./services/api-gateway
+      dockerfile: Dockerfile
+    container_name: fx-api-gateway
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: ${NODE_ENV:-development}
+      PORT: 3000
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: fxplatform
+      DB_USER: postgres
+      DB_PASSWORD: ${DB_PASSWORD:-postgres123}
+      REDIS_URL: redis://redis:6379
+      JWT_SECRET: ${JWT_SECRET}
+      CORS_ORIGIN: ${CORS_ORIGIN:-http://localhost:3000}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - fx-network
+    restart: unless-stopped
+
+  rate-engine:
+    build:
+      context: ./services/rate-engine
+      dockerfile: Dockerfile
+    container_name: fx-rate-engine
+    environment:
+      NODE_ENV: ${NODE_ENV:-development}
+      REDIS_URL: redis://redis:6379
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: fxplatform
+      DB_USER: postgres
+      DB_PASSWORD: ${DB_PASSWORD:-postgres123}
+      CHAINLINK_RPC_URL: ${CHAINLINK_RPC_URL}
+      BASE_RPC_URL: ${BASE_RPC_URL}
+      ORACLE_CONTRACT_ADDRESS: ${ORACLE_CONTRACT_ADDRESS}
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - fx-network
+    restart: unless-stopped
+
+  lock-manager:
+    build:
+      context: ./services/lock-manager
+      dockerfile: Dockerfile
+    container_name: fx-lock-manager
+    environment:
+      NODE_ENV: ${NODE_ENV:-development}
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: fxplatform
+      DB_USER: postgres
+      DB_PASSWORD: ${DB_PASSWORD:-postgres123}
+      BASE_RPC_URL: ${BASE_RPC_URL}
+      DEPLOYER_PRIVATE_KEY: ${DEPLOYER_PRIVATE_KEY}
+      RATE_LOCK_CONTRACT_ADDRESS: ${RATE_LOCK_CONTRACT_ADDRESS}
+    depends_on:
+      - postgres
+    networks:
+      - fx-network
+    restart: unless-stopped
+
+  aave-manager:
+    build:
+      context: ./services/aave-manager
+      dockerfile: Dockerfile
+    container_name: fx-aave-manager
+    environment:
+      NODE_ENV: ${NODE_ENV:-development}
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: fxplatform
+      DB_USER: postgres
+      DB_PASSWORD: ${DB_PASSWORD:-postgres123}
+      BASE_RPC_URL: ${BASE_RPC_URL}
+      DEPLOYER_PRIVATE_KEY: ${DEPLOYER_PRIVATE_KEY}
+      AAVE_POOL_CONTRACT_ADDRESS: ${AAVE_POOL_CONTRACT_ADDRESS}
+      AAVE_POOL_ADDRESS: ${AAVE_POOL_ADDRESS}
+    depends_on:
+      - postgres
+    networks:
+      - fx-network
+    restart: unless-stopped
+
+  binance-integration:
+    build:
+      context: ./services/binance-integration
+      dockerfile: Dockerfile
+    container_name: fx-binance
+    environment:
+      NODE_ENV: ${NODE_ENV:-development}
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: fxplatform
+      DB_USER: postgres
+      DB_PASSWORD: ${DB_PASSWORD:-postgres123}
+      BINANCE_API_KEY: ${BINANCE_API_KEY}
+      BINANCE_API_SECRET: ${BINANCE_API_SECRET}
+      BINANCE_TESTNET: ${BINANCE_TESTNET:-true}
+    depends_on:
+      - postgres
+    networks:
+      - fx-network
+    restart: unless-stopped
+
+  xrp-settlement:
+    build:
+      context: ./services/xrp-settlement
+      dockerfile: Dockerfile
+    container_name: fx-xrp-settlement
+    environment:
+      NODE_ENV: ${NODE_ENV:-development}
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: fxplatform
+      DB_USER: postgres
+      DB_PASSWORD: ${DB_PASSWORD:-postgres123}
+      XRP_WALLET_SEED: ${XRP_WALLET_SEED}
+      XRPL_SERVER: ${XRPL_SERVER:-wss://s.altnet.rippletest.net:51233}
+    depends_on:
+      - postgres
+    networks:
+      - fx-network
+    restart: unless-stopped
+
+  mpesa-service:
+    build:
+      context: ./services/mpesa-service
+      dockerfile: Dockerfile
+    container_name: fx-mpesa
+    ports:
+      - "3001:3001"
+    environment:
+      NODE_ENV: ${NODE_ENV:-development}
+      PORT: 3001
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: fxplatform
+      DB_USER: postgres
+      DB_PASSWORD: ${DB_PASSWORD:-postgres123}
+      MPESA_CONSUMER_KEY: ${MPESA_CONSUMER_KEY}
+      MPESA_CONSUMER_SECRET: ${MPESA_CONSUMER_SECRET}
+      MPESA_PASSKEY: ${MPESA_PASSKEY}
+      MPESA_BUSINESS_SHORT_CODE: ${MPESA_BUSINESS_SHORT_CODE}
+      MPESA_ENVIRONMENT: ${MPESA_ENVIRONMENT:-sandbox}
+    depends_on:
+      - postgres
+    networks:
+      - fx-network
+    restart: unless-stopped
+
+  circuit-breaker:
+    build:
+      context: ./services/circuit-breaker
+      dockerfile: Dockerfile
+    container_name: fx-circuit-breaker
+    environment:
+      NODE_ENV: ${NODE_ENV:-development}
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: fxplatform
+      DB_USER: postgres
+      DB_PASSWORD: ${DB_PASSWORD:-postgres123}
+      BASE_RPC_URL: ${BASE_RPC_URL}
+      CIRCUIT_BREAKER_CONTRACT_ADDRESS: ${CIRCUIT_BREAKER_CONTRACT_ADDRESS}
+      ADMIN_EMAIL: ${ADMIN_EMAIL}
+      SENDGRID_API_KEY: ${SENDGRID_API_KEY}
+    depends_on:
+      - postgres
+    networks:
+      - fx-network
+    restart: unless-stopped
+
+  notification-service:
+    build:
+      context: ./services/notification-service
+      dockerfile: Dockerfile
+    container_name: fx-notifications
+    environment:
+      NODE_ENV: ${NODE_ENV:-development}
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: fxplatform
+      DB_USER: postgres
+      DB_PASSWORD: ${DB_PASSWORD:-postgres123}
+      REDIS_URL: redis://redis:6379
+      SENDGRID_API_KEY: ${SENDGRID_API_KEY}
+      AFRICAS_TALKING_API_KEY: ${AFRICAS_TALKING_API_KEY}
+      AFRICAS_TALKING_USERNAME: ${AFRICAS_TALKING_USERNAME}
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - fx-network
+    restart: unless-stopped
+
+  # ============================================================================
+  # MONITORING
+  # ============================================================================
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: fx-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+    networks:
+      - fx-network
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: fx-grafana
+    ports:
+      - "3030:3000"
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD:-admin123}
+      GF_INSTALL_PLUGINS: grafana-clock-panel
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./monitoring/grafana/dashboards:/etc/grafana/provisioning/dashboards
+    depends_on:
+      - prometheus
+    networks:
+      - fx-network
+    restart: unless-stopped
+
+# ============================================================================
+# NETWORKS & VOLUMES
+# ============================================================================
+
+networks:
+  fx-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+  prometheus_data:
+    driver: local
+  grafana_data:
+    driver: local
