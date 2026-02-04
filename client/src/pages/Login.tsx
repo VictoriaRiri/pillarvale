@@ -1,6 +1,6 @@
 import { SignIn } from '@clerk/clerk-react';
 import { Link } from 'react-router-dom';
-import { Globe, AlertTriangle, ArrowRight } from 'lucide-react';
+import { Globe, AlertTriangle } from 'lucide-react';
 
 const Login = () => {
     const isConfigured = !!import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
