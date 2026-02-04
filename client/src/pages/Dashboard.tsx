@@ -1,18 +1,34 @@
 import { useUser, useClerk } from '@clerk/clerk-react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Globe, LogOut, TrendingUp, Wallet, History, ArrowRight } from 'lucide-react';
+import { Globe, LogOut, TrendingUp, Wallet, History, ArrowRight, AlertTriangle } from 'lucide-react';
 import { useEffect } from 'react';
 
 const Dashboard = () => {
+    const isConfigured = !!import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
     const { user, isLoaded, isSignedIn } = useUser();
     const { signOut } = useClerk();
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (isLoaded && !isSignedIn) {
+        if (isConfigured && isLoaded && !isSignedIn) {
             navigate('/login');
         }
-    }, [isLoaded, isSignedIn, navigate]);
+    }, [isConfigured, isLoaded, isSignedIn, navigate]);
+
+    if (!isConfigured) {
+        return (
+            <div className="min-h-screen bg-slate-900 flex items-center justify-center p-4">
+                <div className="glass-card p-8 text-center max-w-md">
+                    <AlertTriangle className="w-12 h-12 text-yellow-500 mx-auto mb-4" />
+                    <h2 className="text-xl font-bold text-white mb-2">Auth Configuration Required</h2>
+                    <p className="text-gray-400 text-sm mb-6">
+                        The Clerk authentication key is missing. Please add VITE_CLERK_PUBLISHABLE_KEY to your environment variables to access the dashboard.
+                    </p>
+                    <Link to="/" className="text-primary hover:underline">Return to Home</Link>
+                </div>
+            </div>
+        );
+    }
 
     if (!isLoaded || !isSignedIn) return null;
 
