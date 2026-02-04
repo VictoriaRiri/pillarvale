@@ -11,25 +11,19 @@ const Navbar = () => {
                 <div className="items-center justify-between hidden w-full md:flex md:order-1 ml-12">
                     <ul className="flex space-x-10 font-bold text-[10px] uppercase tracking-[0.2em]">
                         <li>
-                            <Link to="/" className="text-white hover:text-secondary transition-colors underline decoration-secondary decoration-2 underline-offset-8">Overview</Link>
+                            <Link to="/" className="text-white hover:text-secondary transition-colors underline decoration-secondary decoration-2 underline-offset-8">Home</Link>
                         </li>
                         <li>
-                            <a href="#features" className="text-gray-400 hover:text-white transition-colors">Infrastructure</a>
+                            <a href="#features" className="text-gray-400 hover:text-white transition-colors">Features</a>
                         </li>
                         <li>
-                            <a href="#" className="text-gray-400 hover:text-white transition-colors">Solutions</a>
-                        </li>
-                        <li>
-                            <a href="#" className="text-gray-400 hover:text-white transition-colors">Company</a>
+                            <a href="#" className="text-gray-400 hover:text-white transition-colors">Pricing</a>
                         </li>
                     </ul>
                 </div>
 
                 <div className="flex md:order-2 gap-6 items-center">
-                    <Link to="/login" className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 hover:text-white transition-colors hidden sm:block">
-                        Login
-                    </Link>
-                    <Link to="/register" className="btn-primary !text-[10px] py-3 px-8 shadow-[0_10px_30px_rgba(10,36,99,0.3)] !rounded-full">
+                    <Link to="/register" className="btn-primary !text-[10px] py-3 px-8 shadow-[0_10px_30px_rgba(10,36,99,0.3)] !rounded-xl !bg-[#0A2463]">
                         Get Started <ArrowRight className="w-4 h-4 ml-1" />
                     </Link>
                 </div>
