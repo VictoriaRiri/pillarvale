@@ -12,7 +12,7 @@
   --font-sans: 'Inter', sans-serif;
 
   --background-image-glass-gradient: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-  --background-image-hero-pattern: url('https://images.unsplash.com/photo-1557683316-973673baf926?q=80&w=2029&auto=format&fit=crop');
+  --background-image-hero-pattern: url('/bg-hero.png');
 }
 
 body {

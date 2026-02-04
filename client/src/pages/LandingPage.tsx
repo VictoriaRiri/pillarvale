@@ -22,8 +22,17 @@ const LandingPage = () => {
                         </Link>
                     </div>
                 </section>
-            </div>
-        </div>
+
+                <section className="py-10 px-4">
+                    <div className="max-w-7xl mx-auto text-center">
+                        <p className="text-gray-400 mb-6 uppercase tracking-wider text-sm font-semibold">Trusted by Leading Companies</p>
+                        <div className="glass-card p-6 inline-block">
+                            <img src="/partners.png" alt="Trusted Partners" className="h-12 opacity-80 hover:opacity-100 transition-opacity" />
+                        </div>
+                    </div>
+                </section>
+            </div >
+        </div >
     );
 };
 
