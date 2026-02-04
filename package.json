@@ -1,0 +1,10 @@
+{
+    "name": "pillarvale-root",
+    "private": true,
+    "scripts": {
+        "install-all": "npm install --prefix client && npm install --prefix backend/services/api-gateway",
+        "build:client": "npm run build --prefix client",
+        "build:backend": "npm run build --prefix backend/services/api-gateway",
+        "start:backend": "npm start --prefix backend/services/api-gateway"
+    }
+}

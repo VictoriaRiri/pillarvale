@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { LogOut, TrendingUp, Wallet, History, Zap, Send } from 'lucide-react';
+import { LogOut, TrendingUp, Wallet, History, Send } from 'lucide-react';
 import Logo from '../components/Logo';
 
 const Dashboard = () => {

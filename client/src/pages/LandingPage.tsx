@@ -1,5 +1,5 @@
 import Navbar from '../components/Navbar';
-import { ArrowRight, Zap, Shield, Globe2, ChevronDown, CheckCircle2 } from 'lucide-react';
+import { ArrowRight, Zap, Shield, Globe2, ChevronDown } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Logo from '../components/Logo';
 
