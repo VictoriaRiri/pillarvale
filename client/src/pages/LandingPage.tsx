@@ -32,12 +32,12 @@ const LandingPage = () => {
                             </p>
 
                             <div className="flex flex-wrap gap-4">
-                                <Link to="/login" className="btn-primary group">
-                                    For Businesses <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                                <Link to="/register" className="btn-primary group">
+                                    Get Started <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                                 </Link>
-                                <button className="btn-secondary">
-                                    For Banks
-                                </button>
+                                <Link to="/login" className="btn-secondary">
+                                    Login to Account
+                                </Link>
                             </div>
                         </div>
 
