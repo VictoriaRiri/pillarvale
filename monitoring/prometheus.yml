@@ -1,0 +1,8 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: "pillarvale-services"
+    static_configs:
+      - targets: ["api-gateway:3000", "notification-service:3000", "circuit-breaker:3000", "aave-manager:3000", "xrp-settlement:3000", "mpesa-service:3000", "rate-engine:3000", "lock-manager:3000", "binance-integration:3000"]

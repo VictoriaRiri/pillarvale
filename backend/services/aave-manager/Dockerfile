@@ -4,7 +4,8 @@ WORKDIR /app
 
 # Install dependencies
 COPY package*.json ./
-RUN npm ci --only=production
+RUN npm install --omit=dev
+RUN npm install -g typescript
 
 # Copy source code
 COPY . .

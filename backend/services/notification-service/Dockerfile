@@ -1,10 +1,11 @@
 FROM node:20-alpine
-
 WORKDIR /app
 
-# Install dependencies
+# Copy package files
 COPY package*.json ./
-RUN npm ci --only=production
+
+# Install ALL dependencies (including dev dependencies for TypeScript build)
+RUN npm install
 
 # Copy source code
 COPY . .
@@ -12,12 +13,5 @@ COPY . .
 # Build TypeScript
 RUN npm run build
 
-# Expose port
-EXPOSE 3005
-
-# Health check
-HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-    CMD node -e "require('http').get('http://localhost:3005/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"
-
-# Start service
+EXPOSE 3000
 CMD ["node", "dist/index.js"]

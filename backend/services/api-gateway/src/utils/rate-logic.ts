@@ -1,4 +1,4 @@
-import { db, redisClient } from '../server';
+import { db, redisClient } from '../db';
 
 export interface RateQuote {
     usdAmount: number;
