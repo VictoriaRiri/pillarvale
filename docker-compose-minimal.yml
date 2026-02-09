@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  auth-service:
+    build: ./backend/services/auth-service
+    ports:
+      - "3006:3006"
+    environment:
+      - JWT_SECRET=pillarvale-secret-key-2024

@@ -1,27 +1,39 @@
 const http = require('http');
-const PORT = 3001;
+const PORT = process.env.PORT || 3000;
+const SERVICE_NAME = "mpesa-service";
 
-const requestHandler = (req, res) => {
-  res.writeHead(200, { 'Content-Type': 'application/json' });
-  res.end(JSON.stringify({
-    service: 'mpesa-service',
-    status: 'OK',
-    timestamp: new Date().toISOString(),
-    endpoint: req.url
-  }));
-};
-
-const server = http.createServer(requestHandler);
-
-server.listen(PORT, '0.0.0.0', () => {
-  console.log(`MPESA service listening on 0.0.0.0:${PORT}`);
+const server = http.createServer((req, res) => {
+  if (req.url === '/health' || req.url === '/metrics') {
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({
+      service: SERVICE_NAME,
+      status: 'healthy',
+      timestamp: new Date().toISOString(),
+      uptime: process.uptime()
+    }));
+    return;
+  }
+  
+  if (req.url === '/' || req.url === '') {
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({
+      service: SERVICE_NAME,
+      status: 'running',
+      endpoints: ['/', '/health', '/metrics'],
+      port: PORT,
+      timestamp: new Date().toISOString()
+    }));
+    return;
+  }
+  
+  res.writeHead(404, { 'Content-Type': 'application/json' });
+  res.end(JSON.stringify({ error: 'Not found', service: SERVICE_NAME }));
 });
 
-// Make sure we handle errors
+server.listen(PORT, '::', () => {
+  console.log(`${SERVICE_NAME} running on port ${PORT}`);
+});
+
 server.on('error', (err) => {
   console.error('Server error:', err.message);
-  if (err.code === 'EADDRINUSE') {
-    console.log(`Port ${PORT} is in use, trying ${PORT + 1}`);
-    server.listen(PORT + 1, '0.0.0.0');
-  }
 });

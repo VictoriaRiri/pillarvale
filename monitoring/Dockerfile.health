@@ -1,0 +1,6 @@
+FROM node:18-alpine
+WORKDIR /app
+COPY health-exporter.js .
+RUN npm init -y && npm install express node-fetch
+EXPOSE 8080
+CMD ["node", "health-exporter.js"]

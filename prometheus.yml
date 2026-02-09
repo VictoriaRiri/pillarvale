@@ -1,0 +1,12 @@
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: 'pillarvale'
+    static_configs:
+      - targets:
+        - 'api-gateway:3000'
+        - 'auth-service:3006'
+        - 'postgres:5432'
+        - 'redis:6379'
+        - 'grafana:3000'

@@ -1,0 +1,84 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: fx-postgres
+    environment:
+      POSTGRES_DB: pillarvale
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres123
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - fx-network
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    container_name: fx-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - fx-network
+    restart: unless-stopped
+
+  api-gateway:
+    build: ./backend/services/api-gateway
+    container_name: fx-api-gateway
+    ports:
+      - "3000:3000"
+    networks:
+      - fx-network
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: fx-grafana
+    ports:
+      - "3030:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_SECURITY_ADMIN_USER=admin
+    volumes:
+      - grafana_data:/var/lib/grafana
+    networks:
+      - fx-network
+    restart: unless-stopped
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: fx-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    networks:
+      - fx-network
+    restart: unless-stopped
+
+  auth-service:
+    build: ./backend/services/auth-service
+    container_name: fx-auth-service
+    ports:
+      - "3006:3006"
+    environment:
+      - JWT_SECRET=pillarvale-secret-key-2024
+    networks:
+      - fx-network
+    restart: unless-stopped
+
+networks:
+  fx-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  redis_data:
+  prometheus_data:
+  grafana_data:
