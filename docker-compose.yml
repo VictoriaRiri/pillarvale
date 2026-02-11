@@ -43,7 +43,7 @@ services:
     build: ./backend/services/mpesa-service
     container_name: fx-mpesa
     ports:
-      - "3001:3001"
+      - "3001:3000"
     networks:
       - fx-network
     restart: unless-stopped
@@ -86,6 +86,8 @@ services:
 
   rate-engine:
     build: ./backend/services/rate-engine
+    ports:
+      - "3007:3000"
     container_name: fx-rate-engine
     networks:
       - fx-network
@@ -93,6 +95,8 @@ services:
 
   binance-integration:
     build: ./backend/services/binance-integration
+    ports:
+      - "3009:3000"
     container_name: fx-binance
     networks:
       - fx-network
@@ -100,6 +104,8 @@ services:
 
   lock-manager:
     build: ./backend/services/lock-manager
+    ports:
+      - "3008:3000"
     container_name: fx-lock-manager
     networks:
       - fx-network
