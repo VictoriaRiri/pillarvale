@@ -25,7 +25,7 @@ const LoginPage = ({ setIsAuthenticated }: AuthProps) => {
       <div className="w-full max-w-md bg-zinc-900/40 border border-white/5 backdrop-blur-2xl p-12 rounded-[2.5rem] shadow-2xl">
         <header className="mb-12 text-center">
           <h1 className="glitch-text text-5xl italic mb-2">PORTAL ACCESS</h1>
-          <p className="text-zinc-500 font-mono text-[10px] tracking-widest uppercase">Provide Node Security Key</p>
+          <p className="text-zinc-500 font-mono text-[10px] tracking-widest uppercase">Provide 4-digit Security Key</p>
         </header>
 
         <form onSubmit={handleLogin} className="space-y-8">
@@ -50,7 +50,7 @@ const LoginPage = ({ setIsAuthenticated }: AuthProps) => {
 
         <footer className="mt-12 text-center">
           <Link to="/register" className="text-[10px] font-mono text-zinc-500 hover:text-white uppercase tracking-[0.2em] transition-colors">
-            No Account? <span className="text-white border-b border-white/20 pb-1">Provision New Node</span>
+            No Account? <span className="text-white border-b border-white/20 pb-1">Create New Account</span>
           </Link>
         </footer>
       </div>
