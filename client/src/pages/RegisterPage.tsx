@@ -58,12 +58,12 @@ const RegisterPage = ({ setIsAuthenticated }: AuthProps) => {
           </div>
 
           <div className="space-y-2">
-            <label className="text-[10px] font-mono text-zinc-500 uppercase ml-2 tracking-tighter">Security Access Key</label>
+            <label className="text-[10px] font-mono text-zinc-500 uppercase ml-2 tracking-tighter">Set 4-digit Security Access Key</label>
             <input required type="password" placeholder="••••••••••••" className="w-full bg-white/5 border border-white/10 rounded-2xl p-5 text-white focus:border-white/30 outline-none transition-all tracking-[0.5em]" />
           </div>
 
           <button type="submit" className={`w-full py-6 rounded-2xl font-black uppercase tracking-[0.3em] text-sm flex items-center justify-center gap-4 transition-all hover:scale-[1.01] active:scale-[0.98] ${role === 'personal' ? 'bg-[#F2A93B] text-black shadow-[0_0_30px_rgba(242,169,59,0.2)]' : 'bg-[#1E3A8A] text-white shadow-[0_0_30px_rgba(30,58,138,0.3)]'}`}>
-            Initialize Account <ArrowRight size={20} />
+            Create Account <ArrowRight size={20} />
           </button>
         </form>
 
