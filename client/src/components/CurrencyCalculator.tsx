@@ -1,47 +1,48 @@
 import { useState } from 'react';
+import { ArrowRightLeft } from 'lucide-react';
 
-export const CurrencyCalculator = () => {
-  const [amount, setAmount] = useState(5000);
-  const rate = 127.00; 
+const CurrencyCalculator = () => {
+  const [amount, setAmount] = useState<string>("1000");
+  const rates = { USDC: 1, KES: 128.5, NGN: 1550, EUR: 0.92 };
 
   return (
-    <div className="w-full max-w-md bg-[#0A0A0A] border border-white/10 rounded-[2.5rem] p-8 shadow-2xl">
-      <div className="space-y-6">
-        <div>
-          <label className="text-[10px] uppercase tracking-widest text-gray-500 font-bold ml-2">YOU SEND</label>
-          <div className="flex justify-between items-center bg-white/5 p-4 rounded-2xl border border-white/5">
+    <div className="space-y-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+        {/* Input Side */}
+        <div className="space-y-2">
+          <label className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest ml-2">Send_Amount</label>
+          <div className="relative">
             <input 
               type="number" 
               value={amount}
-              onChange={(e) => setAmount(Number(e.target.value))}
-              className="bg-transparent text-3xl font-bold outline-none w-full text-white"
+              onChange={(e) => setAmount(e.target.value)}
+              className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 font-mono text-xl focus:outline-none focus:border-white/30 transition-all"
+              placeholder="0.00"
             />
-            <span className="text-xl font-bold text-gray-400">USD</span>
+            <div className="absolute right-4 top-1/2 -translate-y-1/2 text-sm font-black font-mono">USDC</div>
           </div>
         </div>
 
-        <div className="border-l-2 border-indigo-500/30 ml-6 py-1 px-4 text-sm">
-          <div className="flex justify-between text-gray-400"><span>Exchange Rate</span><span className="text-white">1 USD = {rate.toFixed(2)} KES</span></div>
-          <div className="flex justify-between text-gray-400"><span>Processing Fee</span><span className="text-emerald-400">$1.00</span></div>
-        </div>
-
-        <div>
-          <label className="text-[10px] uppercase tracking-widest text-gray-500 font-bold ml-2">RECIPIENT GETS</label>
-          <div className="flex justify-between items-center bg-white/5 p-4 rounded-2xl border border-white/5">
-            <div className="text-3xl font-bold text-white">
-              {((amount - 1) * rate).toLocaleString()}
-            </div>
-            <span className="text-xl font-bold text-gray-400">KES</span>
+        {/* Output Side */}
+        <div className="space-y-2">
+          <label className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest ml-2">Estimated_Receive (KES)</label>
+          <div className="w-full bg-white/10 border border-white/20 rounded-2xl p-4 font-mono text-xl text-green-500">
+            {(Number(amount) * rates.KES).toLocaleString()}
           </div>
-          <p className="text-[11px] text-emerald-500/80 font-medium mt-3 text-center">
-            Saving 17,500 KES vs Banks
-          </p>
         </div>
+      </div>
 
-        <button className="w-full py-5 bg-white text-black rounded-2xl font-black text-lg hover:bg-gray-200 transition-all">
-          Start Settlement
-        </button>
+      <div className="flex items-center justify-between px-2 pt-4 border-t border-white/5">
+        <div className="flex items-center gap-2 text-[10px] font-mono text-zinc-600 uppercase tracking-widest">
+          <ArrowRightLeft size={12} />
+          Rate: 1 USDC = 128.50 KES
+        </div>
+        <div className="text-[10px] font-mono text-zinc-600 uppercase tracking-widest">
+          Slippage: 0.01%
+        </div>
       </div>
     </div>
   );
 };
+
+export default CurrencyCalculator;

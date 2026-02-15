@@ -23,7 +23,7 @@ const Navbar = () => {
                 </div>
 
                 <div className="flex md:order-2 gap-6 items-center">
-                    <Link to="/register" className="btn-primary !text-[10px] py-3 px-8 shadow-[0_10px_30px_rgba(10,36,99,0.3)] !rounded-xl !bg-[#0A2463]">
+                    <Link to="/register" className="btn-primary text-10px! py-3 px-8 shadow-[0_10px_30px_rgba(10,36,99,0.3)] rounded-xl! bg-[#0A2463]!">
                         Get Started <ArrowRight className="w-4 h-4 ml-1" />
                     </Link>
                 </div>

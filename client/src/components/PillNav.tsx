@@ -1,16 +1,54 @@
-export const PillNav = () => {
+import { Link, useLocation } from 'react-router-dom';
+
+interface PillNavProps {
+  isAuthenticated: boolean;
+}
+
+const PillNav = ({ isAuthenticated }: PillNavProps) => {
+  const location = useLocation();
+
   return (
-    <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-50">
-      <div className="flex items-center gap-6 px-6 py-2 rounded-full border border-white/10 bg-black/40 backdrop-blur-xl shadow-2xl">
-        <img src="/logo.png" alt="PillarVale" className="h-6 w-auto" />
-        <div className="hidden md:flex gap-5 text-[10px] uppercase tracking-widest font-bold text-gray-400">
-          <a href="#solutions" className="hover:text-white transition-colors">Solutions</a>
-          <a href="#network" className="hover:text-white transition-colors">Network</a>
-        </div>
-        <button className="px-5 py-2 rounded-full bg-white text-black text-xs font-black hover:scale-105 transition-transform">
-          Get Started
-        </button>
+    <div className="fixed top-8 left-1/2 -translate-x-1/2 z-100 w-auto">
+      <div className="bg-black/60 backdrop-blur-3xl border border-white/10 p-2 rounded-full flex items-center gap-1 shadow-2xl">
+        
+        {/* Logo Section */}
+        <Link to="/" className="flex items-center gap-2 pl-4 pr-3 border-r border-white/10 group">
+          <img src="/favicon.ico" alt="PV" className="w-4 h-4 group-hover:rotate-12 transition-transform" />
+        </Link>
+
+        {/* Home Button */}
+        <Link 
+          to="/" 
+          className={`px-6 py-2 rounded-full text-[10px] font-black uppercase tracking-widest transition-all ${
+            location.pathname === '/' ? 'bg-white text-black' : 'text-zinc-400 hover:text-white'
+          }`}
+        >
+          Home
+        </Link>
+
+        {/* Conditional Buttons: Only show if Logged In */}
+        {isAuthenticated && (
+          <>
+            <Link 
+              to="/dashboard" 
+              className={`px-6 py-2 rounded-full text-[10px] font-black uppercase tracking-widest transition-all ${
+                location.pathname === '/dashboard' ? 'bg-white text-black' : 'text-zinc-400 hover:text-white'
+              }`}
+            >
+              Account
+            </Link>
+            
+            <Link 
+              to="/send" 
+              className="bg-white text-black px-6 py-2 rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-zinc-200 transition-all ml-1 shadow-md"
+            >
+              Initialize
+            </Link>
+          </>
+        )}
       </div>
-    </nav>
+    </div>
   );
 };
+
+export default PillNav;
