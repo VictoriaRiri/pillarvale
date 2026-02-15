@@ -32,10 +32,10 @@ const LandingPage = ({ isAuthenticated }: LandingProps) => {
           ) : (
             <div className="flex flex-col md:flex-row gap-5 w-full max-w-md">
               <Link to="/login" className="flex-1 bg-white text-black py-5 rounded-2xl font-black text-[11px] uppercase tracking-[0.2em] text-center hover:bg-zinc-200 transition-all">
-                Login_Node
+                Login to Account
               </Link>
               <Link to="/register" className="flex-1 border border-white/20 text-white py-5 rounded-2xl font-black text-[11px] uppercase tracking-[0.2em] text-center hover:bg-white/5 transition-all">
-                Request_Access
+                Register New Account
               </Link>
             </div>
           )}
