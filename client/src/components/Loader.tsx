@@ -25,7 +25,6 @@ const Loader = ({ onComplete }: LoaderProps) => {
     <div className="fixed inset-0 z-999 bg-black flex flex-col items-center justify-center p-8">
       <div className="w-full max-w-5xl flex flex-col items-center space-y-16">
         
-        {/* USES THE NEW RESPONSIVE HERO-TITLE CLASS */}
         <h1 className="hero-title animate-pulse">PILLARVALE</h1>
         
         <div className="w-full max-w-md space-y-5">
