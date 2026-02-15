@@ -18,8 +18,7 @@ function App() {
   
   const [balance, setBalance] = useState(12450.00);
   const [transactions, setTransactions] = useState([
-    { id: 1, name: 'Standard Chartered', amount: -1200.00, date: '2026.02.10', status: 'SETTLED' },
-    { id: 2, name: 'Node Yield', amount: 450.00, date: '2026.02.12', status: 'VERIFIED' }
+   
   ]);
 
   if (loading) {
