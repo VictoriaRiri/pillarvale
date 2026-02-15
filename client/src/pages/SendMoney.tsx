@@ -34,7 +34,7 @@ const SendMoney = ({ balance, setBalance, setTransactions }: any) => {
       <div className="max-w-2xl mx-auto">
         <button onClick={() => navigate('/dashboard')} className="flex items-center gap-2 text-zinc-500 hover:text-white mb-12 transition-colors">
           <ArrowLeft size={16} />
-          <span className="text-[10px] font-black uppercase tracking-widest">Return_to_Node</span>
+          <span className="text-[10px] font-black uppercase tracking-widest">Return_to_Account</span>
         </button>
 
         <div className="bg-zinc-950/50 backdrop-blur-3xl border border-white/10 rounded-[3rem] p-12 space-y-10">
@@ -45,7 +45,7 @@ const SendMoney = ({ balance, setBalance, setTransactions }: any) => {
 
           <div className="space-y-6">
             <div className="space-y-2">
-              <label className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest ml-4">Recipient_Node_Address</label>
+              <label className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest ml-4">Enter Recipient</label>
               <input 
                 type="text" 
                 value={recipient}
