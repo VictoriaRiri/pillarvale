@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 const Logo = () => {
   return (
     <Link to="/" className="flex items-center gap-3 group">
-      {/* This pulls from public/favicon.ico */}
+     
       <img 
         src="/favicon.ico" 
         alt="Pillarvale Logo" 
