@@ -1,83 +1,46 @@
-import { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-
-import PillNav from './components/PillNav';
-import BlobCursor from './components/BlobCursor';
-import TypewriterBanner from './components/TypewriterBanner';
-import Loader from './components/Loader';
-
+import { useState } from 'react';
 import LandingPage from './pages/LandingPage';
-import Dashboard from './pages/Dashboard';
-import SendMoney from './pages/SendMoney';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
+import Dashboard from './pages/Dashboard';
+import AboutPage from './pages/AboutPage'; // Import the new page
 
 function App() {
-  const [loading, setLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  
-  const [balance, setBalance] = useState(12450.00);
-  const [transactions, setTransactions] = useState([
-   
-  ]);
-
-  if (loading) {
-    return <Loader onComplete={() => setLoading(false)} />;
-  }
 
   return (
     <Router>
-      <div className="relative min-h-screen bg-transparent">
-      <div className="bg-architecture" />
-        <BlobCursor />
+      <div className="min-h-screen bg-black text-white selection:bg-white/20">
+        {/* Background Layer */}
+        <div className="bg-architecture" />
         
-        <PillNav isAuthenticated={isAuthenticated} />
+        <Routes>
+          {/* Landing Page */}
+          <Route path="/" element={<LandingPage isAuthenticated={isAuthenticated} />} />
 
-        <main className="relative z-10">
-          <Routes>
-            {/* FIXED: Passing isAuthenticated to LandingPage */}
-            <Route 
-              path="/" 
-              element={<LandingPage isAuthenticated={isAuthenticated} />} 
-            />
-            
-            <Route 
-              path="/login" 
-              element={<LoginPage setIsAuthenticated={setIsAuthenticated} />} 
-            />
-            
-            <Route 
-              path="/register" 
-              element={<RegisterPage setIsAuthenticated={setIsAuthenticated} />} 
-            />
-            
-            <Route path="/dashboard" element={
-              isAuthenticated ? (
-                <Dashboard 
-                  balance={balance} 
-                  transactions={transactions} 
-                  setTransactions={setTransactions} 
-                />
-              ) : (
-                <Navigate to="/login" />
-              )
-            } />
-            
-            <Route path="/send" element={
-              isAuthenticated ? (
-                <SendMoney 
-                  balance={balance} 
-                  setBalance={setBalance} 
-                  setTransactions={setTransactions} 
-                />
-              ) : (
-                <Navigate to="/login" />
-              )
-            } />
-          </Routes>
-        </main>
+          {/* The New About Route */}
+          <Route path="/about" element={<AboutPage />} />
 
-        <TypewriterBanner />
+          {/* Auth Routes: Redirect to dashboard if already logged in */}
+          <Route 
+            path="/login" 
+            element={!isAuthenticated ? <LoginPage setIsAuthenticated={setIsAuthenticated} /> : <Navigate to="/dashboard" />} 
+          />
+          <Route 
+            path="/register" 
+            element={!isAuthenticated ? <RegisterPage setIsAuthenticated={setIsAuthenticated} /> : <Navigate to="/dashboard" />} 
+          />
+
+          {/* Protected Dashboard Route */}
+          <Route 
+            path="/dashboard" 
+            element={isAuthenticated ? <Dashboard /> : <Navigate to="/login" />} 
+          />
+
+          {/* Fallback to Home */}
+          <Route path="*" element={<Navigate to="/" />} />
+        </Routes>
       </div>
     </Router>
   );
