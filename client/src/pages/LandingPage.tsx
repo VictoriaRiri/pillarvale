@@ -69,22 +69,25 @@ const LandingPage = ({ isAuthenticated }: LandingProps) => {
 </section>
 
         {/* FEATURES GRID */}
-        <section className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {features.map((f, i) => (
-            <div key={i} className="pixel-card group p-10 rounded-[2.5rem] bg-zinc-900/30 border border-white/5 backdrop-blur-xl">
-              <div className="mb-8 p-3 bg-white/5 border border-white/10 w-fit rounded-xl text-white">
-                {f.icon}
-              </div>
-              {/* h3 sizing handled in CSS fix above */}
-              <h3>{f.title}</h3>
-              <p className="card-description">
-                {f.desc}
-              </p>
-            </div>
-          ))}
-        </section>
-      </div>
-    </div>
+        <div className="flex flex-col md:flex-row gap-6 mt-20 w-full max-w-6xl px-4">
+  {/* Card 1: Rate Lock */}
+  <div className="pixel-card flex-1">
+    <h3>Rate_Lock</h3>
+    <p className="card-description">Freeze favorable exchange rates for up to 30 days.</p>
+  </div>
+
+  {/* Card 2: 15-Min Settlement */}
+  <div className="pixel-card flex-1">
+    <h3>Settlement</h3>
+    <p className="card-description">Move value across the corridor in under 15 minutes.</p>
+  </div>
+
+  {/* Card 3: Infrastructure */}
+  <div className="pixel-card flex-1">
+    <h3>Infrastructure</h3>
+    <p className="card-description">Dual-chain architecture using Base L2 and XRP Ledger.</p>
+  </div>
+</div>
   );
 };
 
