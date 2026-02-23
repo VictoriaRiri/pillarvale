@@ -40,6 +40,33 @@ const LandingPage = ({ isAuthenticated }: LandingProps) => {
             </div>
           )}
         </section>
+        {/* Find the button section in your LandingPage return statement */}
+<section className="flex flex-col items-center">
+  <h1 className="hero-title mb-16 uppercase italic">PILLARVALE</h1>
+  
+  {!isAuthenticated ? (
+    <div className="flex flex-col items-center gap-8 w-full max-w-md">
+      <div className="flex flex-col md:flex-row gap-5 w-full">
+        <Link to="/login" className="flex-1 bg-white text-black py-5 rounded-2xl font-black text-[11px] uppercase tracking-[0.2em] text-center hover:bg-zinc-200 transition-all">
+          Login_Node
+        </Link>
+        <Link to="/register" className="flex-1 border border-white/20 text-white py-5 rounded-2xl font-black text-[11px] uppercase tracking-[0.2em] text-center hover:bg-white/5 transition-all">
+          Request_Access
+        </Link>
+      </div>
+      
+      {/* THE NEW TRUST BUTTON */}
+      <Link to="/about" className="text-zinc-500 hover:text-white transition-all text-[10px] font-mono uppercase tracking-[0.3em] flex items-center gap-2 group">
+        <span className="w-1 h-1 bg-zinc-500 rounded-full group-hover:bg-white animate-pulse" />
+        Here's why you should trust us <span className="opacity-0 group-hover:opacity-100 transition-opacity">→</span>
+      </Link>
+    </div>
+  ) : (
+    <div className="w-full max-w-4xl bg-zinc-950/40 border border-white/10 p-10 rounded-[3.5rem] backdrop-blur-3xl">
+      <CurrencyCalculator />
+    </div>
+  )}
+</section>
 
         {/* FEATURES GRID */}
         <section className="grid grid-cols-1 md:grid-cols-3 gap-8">
