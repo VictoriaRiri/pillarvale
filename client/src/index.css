@@ -1,4 +1,6 @@
 @import "tailwindcss";
+/* Import Oswald from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
 
 @font-face {
   font-family: 'GlitchInside';
@@ -7,6 +9,8 @@
 }
 
 :root {
+  /* Swapping the primary variable to Oswald */
+  --primary-font: "Oswald", sans-serif;
   --glitch: 'GlitchInside', 'Impact', sans-serif;
 }
 
@@ -14,7 +18,7 @@
 body {
   @apply text-white;
   margin: 0;
-  /* Remove solid black from body so fixed bg shows */
+  font-family: var(--primary-font);
   background: transparent !important; 
 }
 
@@ -30,7 +34,7 @@ body {
   background-size: cover;
   background-position: center;
   filter: grayscale(100%) brightness(0.15);
-  z-index: -10; /* Furthest back */
+  z-index: -10;
   display: block !important;
 }
 
@@ -43,29 +47,34 @@ body {
   border-radius: 50%;
   pointer-events: none;
   transform: translate(-50%, -50%);
-  z-index: -5; /* Between bg and content */
+  z-index: -5;
 }
 
 /* 3. RESPONSIVE FONT SCALING */
 .hero-title {
-  font-family: var(--glitch) !important;
-  /* Reduced from 10vw to 8vw to prevent overflow on smaller screens */
+  /* Updated to Oswald */
+  font-family: var(--primary-font) !important;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
   font-size: clamp(2rem, 8.5vw, 9rem); 
-  @apply leading-[0.85] tracking-tighter italic text-white text-center w-full block uppercase;
+  @apply leading-[0.85] tracking-tighter text-white text-center w-full block uppercase;
   white-space: nowrap;
 }
 
-/* THE CARD FONT FIX: Prevents "Infrastructure" from leaking out */
+/* THE CARD FONT FIX */
 .pixel-card h3 {
-  font-family: var(--glitch) !important;
-  @apply italic tracking-tighter text-white uppercase wrap-break-word;
-  /* Use clamp for card titles too */
+  /* Updated to Oswald */
+  font-family: var(--primary-font) !important;
+  font-weight: 600;
+  @apply tracking-tight text-white uppercase break-words;
   font-size: clamp(1.5rem, 4vw, 2.5rem); 
   line-height: 1;
 }
 
 .card-description {
-  @apply text-zinc-400 transition-all duration-700 mt-4 block text-sm;
+  @apply text-zinc-400 transition-all duration-700 mt-4 block text-sm font-light;
+  font-family: var(--primary-font);
   opacity: 0;
   filter: blur(15px);
 }
