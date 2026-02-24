@@ -54,6 +54,15 @@ const LandingPage = ({ isAuthenticated }: LandingProps) => {
                 {f.desc}
               </p>
             </div>
+          <div className="flex justify-center mt-20 pb-10">
+  <Link 
+    to="/about" 
+    className="text-zinc-500 hover:text-white transition-all text-[10px] font-mono uppercase tracking-[0.3em] flex items-center gap-3 group border border-white/5 py-4 px-8 rounded-full bg-black/20 backdrop-blur-sm"
+  >
+    <span className="w-2 h-2 bg-zinc-500 rounded-full group-hover:bg-white animate-pulse" />
+    Here's why you should trust us <span className="opacity-0 group-hover:opacity-100 transition-opacity ml-1">→</span>
+  </Link>
+</div>
           ))}
         </section>
       </div>
