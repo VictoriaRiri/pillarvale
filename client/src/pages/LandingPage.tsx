@@ -54,6 +54,9 @@ const LandingPage = ({ isAuthenticated }: LandingProps) => {
                 {f.desc}
               </p>
             </div>
+          
+          ))}
+        </section>
           <div className="flex justify-center mt-20 pb-10">
   <Link 
     to="/about" 
@@ -63,8 +66,6 @@ const LandingPage = ({ isAuthenticated }: LandingProps) => {
     Here's why you should trust us <span className="opacity-0 group-hover:opacity-100 transition-opacity ml-1">→</span>
   </Link>
 </div>
-          ))}
-        </section>
       </div>
     </div>
   );
