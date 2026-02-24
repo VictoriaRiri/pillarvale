@@ -1,4 +1,4 @@
-import { ShieldCheck, Zap, Coins, Globe, Lock, ArrowLeft } from 'lucide-react';
+import { ShieldCheck, Zap, Coins, Lock, ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const AboutPage = () => {
