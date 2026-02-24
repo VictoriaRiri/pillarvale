@@ -20,7 +20,7 @@ function App() {
           <Route path="/" element={<LandingPage isAuthenticated={isAuthenticated} />} />
 
           {/* The New About Route */}
-          <Route path="/about" element={<AboutPage />} />
+          <Route path="/about" element={<About />} />
 
           {/* Auth Routes: Redirect to dashboard if already logged in */}
           <Route 
