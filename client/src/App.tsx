@@ -4,7 +4,7 @@ import LandingPage from './pages/LandingPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import Dashboard from './pages/Dashboard';
-import AboutPage from './pages/AboutPage'; // Import the new page
+import About from './pages/About'; 
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -40,6 +40,8 @@ function App() {
 
           {/* Fallback to Home */}
           <Route path="*" element={<Navigate to="/" />} />
+
+          <Route path="/about" element={<About />} />
         </Routes>
       </div>
     </Router>
