@@ -43,33 +43,28 @@ const LandingPage = ({ isAuthenticated }: LandingProps) => {
         </section>
 
         {/* FEATURES GRID - Now with PixelTransition and Mobile Fix */}
-        <section className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {features.map((f, i) => (
-            <div key={i} className="h-[300px] w-full"> 
-              <PixelTransition
-                gridSize={10}
-                pixelColor='#ffffff'
-                animationStepDuration={0.4}
-                className="rounded-[2.5rem] overflow-hidden border border-white/5"
-                firstContent={
-                  <div className="w-full h-full p-10 bg-zinc-900/30 backdrop-blur-xl flex flex-col items-center justify-center text-center">
-                     <div className="mb-6 p-3 bg-white/5 border border-white/10 w-fit rounded-xl text-white">
-                        {f.icon}
-                      </div>
-                      <h3 className="text-white text-lg font-bold uppercase tracking-wider">{f.title}</h3>
-                  </div>
-                }
-                secondContent={
-                  <div className="w-full h-full p-10 bg-zinc-950 flex flex-col items-center justify-center text-center">
-                    <p className="text-zinc-400 text-sm leading-relaxed font-mono uppercase tracking-tight">
-                      {f.desc}
-                    </p>
-                  </div>
-                }
-              />
-            </div>
-          ))}
-        </section>
+        <section className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full">
+  {features.map((f, i) => (
+    <div key={i} className="h-[350px] w-full">
+      <PixelTransition
+        className="rounded-[2.5rem] border border-white/10 overflow-hidden"
+        firstContent={
+          /* This is the white card you see in your screenshot */
+          <div className="w-full h-full bg-white text-black p-10 flex flex-col items-center justify-center text-center">
+            <h3 className="font-black uppercase tracking-tighter text-xl mb-4">{f.title}</h3>
+            <p className="text-xs font-bold uppercase leading-tight">{f.desc}</p>
+          </div>
+        }
+        secondContent={
+          /* This is what's underneath it */
+          <div className="w-full h-full bg-zinc-950 flex items-center justify-center">
+             <div className="text-white p-4 border border-white/20 rounded-xl">{f.icon}</div>
+          </div>
+        }
+      />
+    </div>
+  ))}
+</section>
 
         {/* TRUST LINK SECTION */}
         <div className="flex justify-center mt-20 pb-10">
