@@ -1,7 +1,7 @@
 import { Zap, Shield, Globe } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import CurrencyCalculator from '../components/CurrencyCalculator';
-import PixelTransition from '../components/PixelTransition'; // Added the import
+import PixelTransition from '../components/PixelTransition'; 
 
 interface LandingProps {
   isAuthenticated: boolean;
