@@ -1,55 +1,101 @@
 import React, { useState, useEffect } from 'react';
+import { RefreshCcw } from 'lucide-react';
 
 const CurrencyCalculator = () => {
-  const [amount, setAmount] = useState(5000);
-  const rate = 127.00;
-  const fee = 1.00;
+  // Amount defaults to 5000, but is fully editable by the user
+  const [amount, setAmount] = useState<number | string>(5000);
+  const [rate, setRate] = useState<number>(0);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch Live Market Rate
+  const fetchLiveRate = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch('https://open.er-api.com/v6/latest/USD');
+      const data = await response.json();
+      if (data.rates && data.rates.KES) {
+        setRate(data.rates.KES);
+      }
+    } catch (error) {
+      console.error("Market data fetch failed:", error);
+      setRate(128.50); // Fallback rate if API fails
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchLiveRate();
+  }, []);
+
+  // Calculate conversion
+  const conversionResult = Number(amount) * rate;
 
   return (
-    <div className="bg-white p-8 rounded-3xl shadow-2xl border border-gray-100 max-w-md w-full">
-      <div className="space-y-4">
-        <div>
-          <label className="text-xs font-bold uppercase text-gray-400">You Send</label>
-          <div className="flex items-center border-b-2 border-black py-2">
+    <div className="bg-white p-8 rounded-[2.5rem] shadow-2xl border border-gray-100 w-full max-w-md animate-in fade-in zoom-in duration-500">
+      <div className="space-y-6">
+        
+        {/* Market Status Header */}
+        <div className="flex justify-between items-center">
+          <span className="text-[10px] font-black uppercase tracking-widest text-stripe-blue">Live Market Data</span>
+          <button 
+            onClick={fetchLiveRate}
+            className="flex items-center gap-2 group"
+          >
+            <RefreshCcw size={12} className={`text-gray-400 group-hover:text-black transition-all ${loading ? 'animate-spin' : ''}`} />
+            <span className="font-mono text-xs font-bold text-noir-black">
+              1 USD = {loading ? '...' : rate.toFixed(2)} KES
+            </span>
+          </button>
+        </div>
+
+        {/* Input Field (User Toggles This) */}
+        <div className="space-y-1">
+          <label className="text-[10px] font-bold text-gray-400 uppercase tracking-tighter">Amount to Send</label>
+          <div className="relative group">
             <input 
               type="number" 
-              value={amount} 
-              onChange={(e) => setAmount(Number(e.target.value))}
-              className="text-3xl font-bold w-full outline-none"
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
+              placeholder="0.00"
+              className="w-full text-5xl font-bold py-2 outline-none border-b-2 border-gray-100 focus:border-black transition-colors bg-transparent text-noir-black"
             />
-            <span className="font-bold">USD</span>
+            <span className="absolute right-0 bottom-3 font-bold text-gray-400 group-focus-within:text-black transition-colors">USD</span>
           </div>
         </div>
 
-        <div className="bg-gray-50 p-4 rounded-xl text-sm space-y-2">
-          <div className="flex justify-between">
-            <span className="text-gray-500">Exchange Rate</span>
-            <span className="font-mono">1 USD = {rate} KES</span>
-          </div>
-          <div className="flex justify-between">
-            <span className="text-gray-500">Fee</span>
-            <span className="font-mono">${fee.toFixed(2)}</span>
-          </div>
-        </div>
-
-        <div>
-          <label className="text-xs font-bold uppercase text-gray-400">Recipient Gets</label>
-          <div className="flex items-center border-b-2 border-gray-200 py-2">
-            <div className="text-3xl font-bold w-full">
-              {((amount - fee) * rate).toLocaleString()}
-            </div>
+        {/* Live Conversion Output */}
+        <div className="space-y-1">
+          <label className="text-[10px] font-bold text-gray-400 uppercase tracking-tighter">Recipient Receives</label>
+          <div className="flex justify-between items-end border-b border-gray-50 pb-2">
+            <span className={`text-5xl font-bold tracking-tighter ${loading ? 'text-gray-200' : 'text-noir-black'}`}>
+              {loading ? '---' : conversionResult.toLocaleString(undefined, { maximumFractionDigits: 2 })}
+            </span>
             <span className="font-bold text-gray-400">KES</span>
           </div>
         </div>
 
-        <button className="w-full bg-stripe-blue text-white py-4 rounded-xl font-bold text-lg hover:brightness-110 transition shadow-lg">
-          Start Settlement
+        {/* Summary Details */}
+        <div className="bg-gray-50 p-4 rounded-2xl space-y-2">
+          <div className="flex justify-between text-xs font-medium">
+            <span className="text-gray-400">Guaranteed Rate</span>
+            <span className="text-noir-black font-bold">15 Minutes</span>
+          </div>
+          <div className="flex justify-between text-xs font-medium">
+            <span className="text-gray-400">Processing Fee</span>
+            <span className="text-green-600 font-bold">$0.00 USD</span>
+          </div>
+        </div>
+
+        <button 
+          disabled={loading || !amount}
+          className="w-full bg-black text-white py-5 rounded-2xl font-bold text-lg hover:bg-zinc-800 transition-all shadow-xl active:scale-[0.98] disabled:bg-gray-200 disabled:cursor-not-allowed"
+        >
+          Initialize Settlement
         </button>
-        <p className="text-center text-green-600 text-sm font-medium">
-          Saving 2-4 KES vs Traditional Banks
-        </p>
       </div>
     </div>
   );
 };
-export default CurrencyCalculator.tsx;
+
+export default CurrencyCalculator;
