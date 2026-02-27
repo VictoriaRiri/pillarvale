@@ -1,54 +1,21 @@
-import { Link, useLocation } from 'react-router-dom';
+import React from 'react';
 
-interface PillNavProps {
-  isAuthenticated: boolean;
-}
-
-const PillNav = ({ isAuthenticated }: PillNavProps) => {
-  const location = useLocation();
-
+const Navbar = () => {
   return (
-    <div className="fixed top-8 left-1/2 -translate-x-1/2 z-100 w-auto">
-      <div className="bg-black/60 backdrop-blur-3xl border border-white/10 p-2 rounded-full flex items-center gap-1 shadow-2xl">
-        
-        {/* Logo Section */}
-        <Link to="/" className="flex items-center gap-2 pl-4 pr-3 border-r border-white/10 group">
-          <img src="/favicon.ico" alt="PV" className="w-4 h-4 group-hover:rotate-12 transition-transform" />
-        </Link>
-
-        {/* Home Button */}
-        <Link 
-          to="/" 
-          className={`px-6 py-2 rounded-full text-[10px] font-black uppercase tracking-widest transition-all ${
-            location.pathname === '/' ? 'bg-white text-black' : 'text-zinc-400 hover:text-white'
-          }`}
-        >
-          Home
-        </Link>
-
-        {/* Conditional Buttons: Only show if Logged In */}
-        {isAuthenticated && (
-          <>
-            <Link 
-              to="/dashboard" 
-              className={`px-6 py-2 rounded-full text-[10px] font-black uppercase tracking-widest transition-all ${
-                location.pathname === '/dashboard' ? 'bg-white text-black' : 'text-zinc-400 hover:text-white'
-              }`}
-            >
-              Account
-            </Link>
-            
-            <Link 
-              to="/send" 
-              className="bg-white text-black px-6 py-2 rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-zinc-200 transition-all ml-1 shadow-md"
-            >
-              Initialize
-            </Link>
-          </>
-        )}
+    <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-50">
+      <div className="bg-white/80 backdrop-blur-md border border-gray-200 px-6 py-3 rounded-full shadow-xl flex items-center gap-8">
+        <div className="font-bold text-xl tracking-tighter">PILLARVALE</div>
+        <div className="hidden md:flex gap-6 text-sm font-medium text-gray-600">
+          <a href="#" className="hover:text-black transition">Solutions</a>
+          <a href="#" className="hover:text-black transition">Developers</a>
+          <a href="#" className="hover:text-black transition">Company</a>
+        </div>
+        <button className="bg-black text-white px-5 py-2 rounded-full text-sm font-semibold hover:bg-gray-800 transition">
+          Sign In
+        </button>
       </div>
-    </div>
+    </nav>
   );
 };
 
-export default PillNav;
+export default Navbar;
