@@ -1,7 +1,14 @@
 import PillNavbar from '../components/PillNavbar';
 import CurrencyCalculator from '../components/CurrencyCalculator';
+import About from '../components/About';
+import Loader from '../components/Loader';
 
 export default function Home() {
+  const [loading, setLoading] = useState(true);
+
+  return (
+    <>
+      {loading && <Loader onFinished={() => setLoading(false)} />}export default function Home() {
   return (
     <div className="bg-white min-h-screen font-sans selection:bg-black selection:text-white">
       <PillNavbar />
@@ -27,6 +34,7 @@ export default function Home() {
            <div className="absolute -z-10 top-10 -right-10 w-full h-full bg-stripe-blue/5 rounded-3xl blur-3xl"></div>
         </div>
       </main>
+      <About />
 
       {/* Typewriter Banner at Bottom */}
       <div className="w-full bg-black py-10 overflow-hidden">
@@ -40,4 +48,5 @@ export default function Home() {
       </div>
     </div>
   );
+  export default LandingPage.tsx;
 }
