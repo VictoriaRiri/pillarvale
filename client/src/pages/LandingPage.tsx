@@ -1,6 +1,6 @@
 import PillNavbar from '../components/PillNavbar';
 import CurrencyCalculator from '../components/CurrencyCalculator';
-import About from '../components/About';
+import About from '../pages/About';
 import Loader from '../components/Loader';
 
 export default function Home() {
