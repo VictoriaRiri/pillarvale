@@ -1,85 +1,43 @@
-import { Zap, Shield, Globe } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import PillNavbar from '../components/PillNavbar';
 import CurrencyCalculator from '../components/CurrencyCalculator';
-import PixelTransition from '../components/PixelTransition'; 
 
-interface LandingProps {
-  isAuthenticated: boolean;
-}
-
-const LandingPage = ({ isAuthenticated }: LandingProps) => {
-  const features = [
-    { title: "Settlement", desc: "Proprietary rails for high-speed cross-border transactions.", icon: <Zap size={20} /> },
-    { title: "Infrastructure", desc: "Automated liquidity nodes for institutional providers.", icon: <Shield size={20} /> },
-    { title: "Liquidity", desc: "Pure USDC native settlement eliminates currency slippage.", icon: <Globe size={20} /> }
-  ];
-
+export default function Home() {
   return (
-    <div className="relative min-h-screen pt-44 pb-32 px-6 bg-transparent">
-      <div className="max-w-7xl mx-auto space-y-24 relative z-10">
-
-        {/* HERO SECTION */}
-        <section className="flex flex-col items-center">
-          <h1 className="hero-title mb-16">PILLARVALE</h1>
-
-          {isAuthenticated ? (
-            <div className="w-full max-w-4xl bg-zinc-950/40 border border-white/10 p-10 rounded-[3.5rem] backdrop-blur-3xl">
-              <div className="mb-8 text-center">
-                <p className="text-[10px] font-mono text-zinc-500 uppercase tracking-[0.5em]">Terminal_Active</p>
-              </div>
-              <CurrencyCalculator />
-            </div>
-          ) : (
-            <div className="flex flex-col md:flex-row gap-5 w-full max-w-md">
-              {/* FIXED LINE 36 BELOW: Added the missing '>' */}
-              <Link to="/login" className="flex-1 bg-white text-black py-5 rounded-2xl font-black text-[11px] uppercase tracking-[0.2em] text-center hover:bg-zinc-200 transition-all">
-                Login to Account
-              </Link>
-              <Link to="/register" className="flex-1 border border-white/20 text-white py-5 rounded-2xl font-black text-[11px] uppercase tracking-[0.2em] text-center hover:bg-white/5 transition-all">
-                Register New Account
-              </Link>
-            </div>
-          )}
-        </section>
-
-        {/* FEATURES GRID - Now with PixelTransition and Mobile Fix */}
-        <section className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full">
-  {features.map((f, i) => (
-    <div key={i} className="h-[350px] w-full">
-      <PixelTransition
-        className="rounded-[2.5rem] border border-white/10 overflow-hidden"
-        firstContent={
-          /* This is the white card you see in your screenshot */
-          <div className="w-full h-full bg-white text-black p-10 flex flex-col items-center justify-center text-center">
-            <h3 className="font-black uppercase tracking-tighter text-xl mb-4">{f.title}</h3>
-            <p className="text-xs font-bold uppercase leading-tight">{f.desc}</p>
+    <div className="bg-white min-h-screen font-sans selection:bg-black selection:text-white">
+      <PillNavbar />
+      
+      <main className="pt-32 pb-20 px-6 max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
+        <div>
+          <h1 className="text-7xl font-bold tracking-tight text-noir-black mb-6">
+            Global money <br />
+            <span className="text-gray-400">at the speed of light.</span>
+          </h1>
+          <p className="text-xl text-gray-600 max-w-md mb-8 leading-relaxed">
+            Stop losing 5–10% on cross-border payments. PillarVale uses blockchain settlement rails to help businesses move money globally in 15 minutes.
+          </p>
+          <div className="flex gap-4">
+            <button className="bg-black text-white px-8 py-4 rounded-full font-bold">Get Started</button>
+            <button className="text-black px-8 py-4 rounded-full font-bold border border-gray-200">Contact Sales</button>
           </div>
-        }
-        secondContent={
-          /* This is what's underneath it */
-          <div className="w-full h-full bg-zinc-950 flex items-center justify-center">
-             <div className="text-white p-4 border border-white/20 rounded-xl">{f.icon}</div>
-          </div>
-        }
-      />
-    </div>
-  ))}
-</section>
-
-        {/* TRUST LINK SECTION */}
-        <div className="flex justify-center mt-20 pb-10">
-          <Link 
-            to="/about" 
-            className="text-zinc-500 hover:text-white transition-all text-[10px] font-mono uppercase tracking-[0.3em] flex items-center gap-3 group border border-white/5 py-4 px-8 rounded-full bg-black/20 backdrop-blur-sm"
-          >
-            <span className="w-2 h-2 bg-zinc-500 rounded-full group-hover:bg-white animate-pulse" />
-            Here's why you should trust us <span className="opacity-0 group-hover:opacity-100 transition-opacity ml-1">→</span>
-          </Link>
         </div>
 
+        <div className="relative">
+           <CurrencyCalculator />
+           {/* Subtle 3D background element */}
+           <div className="absolute -z-10 top-10 -right-10 w-full h-full bg-stripe-blue/5 rounded-3xl blur-3xl"></div>
+        </div>
+      </main>
+
+      {/* Typewriter Banner at Bottom */}
+      <div className="w-full bg-black py-10 overflow-hidden">
+        <div className="whitespace-nowrap flex animate-[marquee_20s_linear_infinite]">
+          {[1,2,3,4,5].map((i) => (
+            <span key={i} className="text-[12vw] font-black text-white/10 mx-10 uppercase">
+              PillarVale • Global Settlement • Blockchain Rails •
+            </span>
+          ))}
+        </div>
       </div>
     </div>
   );
-};
-
-export default LandingPage;
+}
