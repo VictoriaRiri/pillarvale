@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const Calculator = () => {
+const CurrencyCalculator = () => {
   const [amount, setAmount] = useState(5000);
   const rate = 127.00;
   const fee = 1.00;
@@ -46,9 +46,10 @@ const Calculator = () => {
           Start Settlement
         </button>
         <p className="text-center text-green-600 text-sm font-medium">
-          Saving ~17,500 KES vs Traditional Banks
+          Saving 2-4 KES vs Traditional Banks
         </p>
       </div>
     </div>
   );
 };
+export default CurrencyCalculator.tsx;
