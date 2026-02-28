@@ -1,52 +1,102 @@
-import PillNavbar from '../components/PillNavbar';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import PillNav from '../components/PillNav';
 import CurrencyCalculator from '../components/CurrencyCalculator';
-import About from '../pages/About';
-import Loader from '../components/Loader';
+import About from './About';
 
-export default function Home() {
-  const [loading, setLoading] = useState(true);
+const LandingPage = () => {
+  const navigate = useNavigate();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const user = localStorage.getItem('user'); 
+    if (user) setIsLoggedIn(true);
+  }, []);
 
   return (
-    <>
-      {loading && <Loader onFinished={() => setLoading(false)} />}export default function Home() {
-  return (
-    <div className="bg-white min-h-screen font-sans selection:bg-black selection:text-white">
-      <PillNavbar />
+    <div className="min-h-screen overflow-x-hidden">
+      <PillNav />
       
-      <main className="pt-32 pb-20 px-6 max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
-        <div>
-          <h1 className="text-7xl font-bold tracking-tight text-noir-black mb-6">
-            Global money <br />
-            <span className="text-gray-400">at the speed of light.</span>
-          </h1>
-          <p className="text-xl text-gray-600 max-w-md mb-8 leading-relaxed">
-            Stop losing 5–10% on cross-border payments. PillarVale uses blockchain settlement rails to help businesses move money globally in 15 minutes.
-          </p>
-          <div className="flex gap-4">
-            <button className="bg-black text-white px-8 py-4 rounded-full font-bold">Get Started</button>
-            <button className="text-black px-8 py-4 rounded-full font-bold border border-gray-200">Contact Sales</button>
+      {/* Hero Section */}
+      <section className="relative pt-48 pb-32 px-6">
+        <div className="max-w-7xl mx-auto grid lg:grid-cols-12 gap-12 items-start">
+          
+          {/* Left Side: Editorial Style Copy */}
+          <div className="lg:col-span-7 space-y-12">
+            <motion.div 
+              initial={{ opacity: 0, x: -20 }} 
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+            >
+              <h1 className="text-[clamp(3.5rem,8vw,6rem)] font-bold tracking-[-0.04em] leading-[0.9] mb-8">
+                The new <br />
+                <span className="text-black/20 italic font-serif">standard</span> <br />
+                for liquidity.
+              </h1>
+              <p className="text-xl md:text-2xl text-black/50 max-w-lg leading-relaxed font-medium">
+                PillarVale bridges the gap between traditional banking and blockchain rails. 15-minute global settlements.
+              </p>
+            </motion.div>
+
+            {!isLoggedIn && (
+              <div className="flex items-center gap-6">
+                <button 
+                  onClick={() => navigate('/login')}
+                  className="h-14 px-10 bg-black text-white rounded-full font-bold text-lg hover:scale-105 transition-transform shadow-2xl shadow-black/20"
+                >
+                  Get Started
+                </button>
+                <button 
+                  onClick={() => navigate('/register')}
+                  className="text-black font-bold border-b-2 border-black/10 hover:border-black transition-colors pb-1"
+                >
+                  Contact Sales
+                </button>
+              </div>
+            )}
+          </div>
+
+          {/* Right Side: The Interactive Component */}
+          <div className="lg:col-span-5 relative">
+            {/* Soft Glow Background */}
+            <div className="absolute -inset-20 bg-blue-500/5 rounded-full blur-[120px] pointer-events-none" />
+            
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.2, duration: 1 }}
+            >
+              {isLoggedIn ? (
+                <CurrencyCalculator />
+              ) : (
+                <div className="noir-card p-12 rounded-[3rem] text-center space-y-6">
+                  <div className="w-16 h-16 bg-gray-50 rounded-2xl mx-auto flex items-center justify-center border border-black/5">
+                    <div className="w-2 h-2 bg-black rounded-full animate-pulse" />
+                  </div>
+                  <h3 className="font-bold text-xl tracking-tight text-black/40">Secure Node Access</h3>
+                  <p className="text-sm text-black/30">Connect your account to access real-time <br/> liquidity and settlement tools.</p>
+                </div>
+              )}
+            </motion.div>
           </div>
         </div>
+      </section>
 
-        <div className="relative">
-           <CurrencyCalculator />
-           {/* Subtle 3D background element */}
-           <div className="absolute -z-10 top-10 -right-10 w-full h-full bg-stripe-blue/5 rounded-3xl blur-3xl"></div>
-        </div>
-      </main>
       <About />
-
-      {/* Typewriter Banner at Bottom */}
-      <div className="w-full bg-black py-10 overflow-hidden">
-        <div className="whitespace-nowrap flex animate-[marquee_20s_linear_infinite]">
-          {[1,2,3,4,5].map((i) => (
-            <span key={i} className="text-[12vw] font-black text-white/10 mx-10 uppercase">
-              PillarVale • Global Settlement • Blockchain Rails •
+      
+      {/* Editorial Footer Marquee */}
+      <footer className="bg-black py-20 overflow-hidden">
+        <div className="flex whitespace-nowrap animate-marquee">
+          {[...Array(10)].map((_, i) => (
+            <span key={i} className="text-[12vw] font-black tracking-tighter text-white/10 uppercase italic mx-10 leading-none">
+              PillarVale
             </span>
           ))}
         </div>
-      </div>
+      </footer>
     </div>
   );
-  export default LandingPage.tsx;
-}
+};
+
+export default LandingPage;
