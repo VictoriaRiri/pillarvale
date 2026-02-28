@@ -2,26 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
-  background-color: #ffffff;
-  color: #0a0a0a;
-}
-
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-  /* This creates that soft 'Noir' background feel */
-  background: radial-gradient(circle at top right, #f8fafc, #ffffff);
-}
-
-/* Custom utility for the typewriter marquee effect */
-@layer utilities {
-  .animate-marquee {
-    display: inline-block;
-    animation: marquee 25s linear infinite;
+@layer base {
+  body {
+    @apply bg-[#FAFAFA] text-[#1A1A1A] antialiased;
+    font-feature-settings: "ss01", "ss02", "cv01", "cv02";
   }
+}
+
+/* The "Stripe" Subtle Border Effect */
+.noir-card {
+  @apply bg-white border-[0.5px] border-black/5 shadow-[0_2px_4px_rgba(0,0,0,0.02),0_1px_0_rgba(0,0,0,0.02)];
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.noir-card:hover {
+  @apply shadow-[0_20px_40px_rgba(0,0,0,0.04),0_1px_0_rgba(0,0,0,0.02)];
+  transform: translateY(-2px);
 }
